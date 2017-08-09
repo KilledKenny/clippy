@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script type="text/javascript" src="/js/jsqrcode/src/grid.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/version.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/detector.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/formatinf.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/errorlevel.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/bitmat.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/datablock.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/bmparser.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/datamask.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/rsdecoder.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/gf256poly.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/gf256.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/decoder.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/qrcode.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/findpat.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/alignpat.js"></script>
+<script type="text/javascript" src="/js/jsqrcode/src/databr.js"></script>
+<script type="text/javascript" src="/js/qrcodejs/qrcode.min.js"></script>
+<script type="text/javascript" src="/js/aes-js/index.js"></script>
+<!--script type="text/javascript" src="/js/main.js"></script-->
+<script type="text/javascript">
+//Todo fix cashing in go....
+var t = document.createElement('script');
+t.setAttribute('src','/js/main.js?t='+ new Date().getTime());
+document.head.appendChild(t);
+</script>
+<script>
+
+</script>
+
+</head>
+<body>
+
+<div id="setup" style="visibility: hidden;">
+
+	<!-- Video -->
+	<div>
+		<div id="outdiv"><video id="v" autoplay></video>
+		</div>
+		<div style="display: none;">
+		<div id="error"></div>
+		<canvas id="qr-canvas" width="800" height="600"></canvas>
+		</div>
+	</div>
+
+	<!-- QR -->
+	<div>
+		<div id="qrcode"></div>
+	</div>
+</div>
+<div id="normal" style="visibility: hidden;">
+<button class="js-textareacopybtn" style="vertical-align:top;">Copy Textarea</button>
+  <textarea class="js-copytextarea" disabled></textarea>
+  <textarea> </textarea>
+</div>
+
+
+</body>
+
+</html>
