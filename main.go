@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/patrickmn/go-cache"
 	"io"
@@ -8,9 +9,8 @@ import (
 	"log"
 	"net/http"
 	"regexp"
-	"time"
-	"flag"
 	"strconv"
+	"time"
 )
 
 type Item struct {
@@ -31,9 +31,9 @@ var (
 )
 
 var (
-	FlagPort int
+	FlagPort  int
 	FlagHttps bool
-	FlagHost string
+	FlagHost  string
 )
 
 func init() {
@@ -139,7 +139,6 @@ func main() {
 	myHandler.HandleFunc("/api/put/", put)
 	myHandler.HandleFunc("/api/get/", get)
 
-
 	if FlagPort != 0 {
 		FlagHost = FlagHost + ":" + strconv.Itoa(FlagPort)
 	}
@@ -152,7 +151,7 @@ func main() {
 	log.Println("Starting server")
 	if FlagHttps {
 		log.Println(s.ListenAndServeTLS("server.crt", "server.key"))
-	}else {
+	} else {
 		log.Println(s.ListenAndServe())
 	}
 }
