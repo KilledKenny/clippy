@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"regexp"
 	"time"
+	"flag"
+	"strconv"
 )
 
 type Item struct {
@@ -28,7 +30,18 @@ var (
 	DataSize               int64          = 0
 )
 
+var (
+	FlagPort int
+	FlagHttps bool
+	FlagHost string
+)
+
 func init() {
+	flag.IntVar(&FlagPort, "port", 0, "http port 0 for defalt")
+	flag.BoolVar(&FlagHttps, "https", true, "enable https")
+	flag.StringVar(&FlagHost, "host", "127.0.0.1", "")
+	flag.Parse()
+
 	Cache.OnEvicted(func(key string, i interface{}) {
 		b, ok := i.([]byte)
 		if !ok {
@@ -65,6 +78,8 @@ func Add(ID string, data []byte) (err error) {
 }
 
 func put(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "text/plain; charset=utf-8")
+	w.Header().Add("X-Content-Type-Options", "nosniff")
 	ID, code, err := MethodID("PUT", r)
 	if err != nil {
 		w.WriteHeader(code)
@@ -90,10 +105,12 @@ func put(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(err.Error()))
 		return
 	}
-	w.Write([]byte("ok\n" + ID))
+	w.Write([]byte("ok\n"))
 }
 
 func get(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "text/plain; charset=utf-8")
+	w.Header().Add("X-Content-Type-Options", "nosniff")
 	ID, code, err := MethodID("GET", r)
 	if err != nil {
 		w.WriteHeader(code)
@@ -122,18 +139,20 @@ func main() {
 	myHandler.HandleFunc("/api/put/", put)
 	myHandler.HandleFunc("/api/get/", get)
 
-	loopback := false
-	loopback = false
-	host := ""
-	if loopback {
-		host = "127.0.0.1"
+
+	if FlagPort != 0 {
+		FlagHost = FlagHost + ":" + strconv.Itoa(FlagPort)
 	}
 
 	s := &http.Server{
-		Addr:           host + ":8081",
+		Addr:           FlagHost,
 		Handler:        myHandler,
 		MaxHeaderBytes: 1 << 20,
 	}
 	log.Println("Starting server")
-	s.ListenAndServeTLS("server.crt", "server.key")
+	if FlagHttps {
+		log.Println(s.ListenAndServeTLS("server.crt", "server.key"))
+	}else {
+		log.Println(s.ListenAndServe())
+	}
 }
