@@ -139,9 +139,13 @@ func main() {
 	myHandler.HandleFunc("/api/put/", put)
 	myHandler.HandleFunc("/api/get/", get)
 
-	if FlagPort != 0 {
-		FlagHost = FlagHost + ":" + strconv.Itoa(FlagPort)
+	if FlagPort == 0 && FlagHttps {
+		FlagPort = 443
+	} else if FlagPort == 0 {
+		FlagPort = 80
 	}
+
+	FlagHost = FlagHost + ":" + strconv.Itoa(FlagPort)
 
 	s := &http.Server{
 		Addr:           FlagHost,
