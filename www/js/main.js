@@ -162,8 +162,17 @@ function initClipPaste(){
 }
 
 document.addEventListener('paste', handlePaste);
-	
-	
+}
+
+function initResetBut(){
+var resetBut = document.getElementById("reset");
+resetBut.addEventListener("click", function(event) {
+alert("a");
+	localStorage.removeItem("pasteKey");
+	localStorage.removeItem("setup");
+
+});
+
 }
 
 
@@ -175,16 +184,25 @@ document.addEventListener('paste', handlePaste);
 var gCtx = null;
 var v=null;
 var mode="";
+var s=null;
 
 
 
 function read(a)
 {
 	alert(a);
+	v.pause();
+	for (let track of s.getTracks()) {
+        track.stop()
+    }
+	s.clone();
+
+
+	alert(a);
 	window.localStorage["pasteKey"] = a;
 	put("First");
 	window.localStorage["setup"] = "true";
-	
+
 
 }
 function video(){
@@ -226,12 +244,14 @@ function run(options){
 		mode="moz";
 	}
 	getUserMedia.call(navigator,{video:options, audio: false}, success, error);
+
 }
 function error(error) {
 	//alert(error);
 	console.log(error);
 }
 function success(stream) {
+	s = stream;
     if(navigator.mozGetUserMedia)
     {
         v.mozSrcObject = stream;
@@ -261,9 +281,6 @@ function captureToCanvas() {
 }
 
 function main(){
-	//localStorage.removeItem("setup");
-	//localStorage.removeItem("setup");
-	//localStorage.removeItem("pasteKey");
 	if (window.localStorage["setup"] != "true"){
 	document.getElementById("setup").style.visibility = "visible";
 	document.getElementById("normal").style.display = 'none';
@@ -274,6 +291,7 @@ function main(){
 		document.getElementById("normal").style.visibility = "visible";
 		initClibBut();
 		initClipPaste();
+		initResetBut();
 		
 	}
 }
