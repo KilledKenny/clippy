@@ -52,14 +52,13 @@ var xhr = new XMLHttpRequest();
 
 xhr.onreadystatechange = function () {
 if (this.readyState === 4) {
-console.log(this.responseText);
-console.log('Error: ' + this.status);
+//console.log(this.responseText);
+//console.log('Error: ' + this.status);
 }
 };
 
 xhr.open('GET', '/api/get/?ID=' + crypt.ID(), false);
 xhr.send(null);
-console.log("block?");
 if ( xhr.responseText == "Nothing copied") {
 return  null;
 }
@@ -83,7 +82,6 @@ xhr.send(crypt.Encrypt(data));
 
 
 function checkSetup(){
-	console.log("check");
 	test = get();
 	if (test === null) {
 	 setTimeout(checkSetup, 1000);
@@ -109,7 +107,6 @@ function dispqr(){
 
 
 function pollClip(){
-		console.log("check");
 	test = get();
 	if (test){
 	document.querySelector('.js-copytextarea').innerText = test;
@@ -203,6 +200,8 @@ function read(a)
 	put("First");
 	window.localStorage["setup"] = "true";
 
+	//Soft restart ish...
+	main();
 
 }
 function video(){
@@ -284,11 +283,13 @@ function main(){
 	if (window.localStorage["setup"] != "true"){
 	document.getElementById("setup").style.visibility = "visible";
 	document.getElementById("normal").style.display = 'none';
+	document.getElementById("setup").style.display = "";
 	video();
 	dispqr();
 	}else {
 		document.getElementById("setup").style.display = 'none';
 		document.getElementById("normal").style.visibility = "visible";
+		document.getElementById("normal").style.display = "";
 		initClibBut();
 		initClipPaste();
 		initResetBut();
