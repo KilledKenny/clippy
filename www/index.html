@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript" src="/js/copyList.js"></script>
 <script type="text/javascript" src="/js/jsqrcode/src/grid.js"></script>
 <script type="text/javascript" src="/js/jsqrcode/src/version.js"></script>
 <script type="text/javascript" src="/js/jsqrcode/src/detector.js"></script>
@@ -31,35 +32,61 @@ document.head.appendChild(t);
 <script>
 
 </script>
-
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="balloon.css">
 </head>
 <body>
 
-<div id="setup" style="visibility: hidden;">
+<div id="setup">
+
+	<div id="setup-menu">
+		<div class="menu-choice" data-attribute="camera">
+			<div class="menu-choice-details">
+				<i class="material-icons">photo_camera</i>
+				<p>Open QR-scanner</p>
+			</div>
+		</div>
+		<div class="menu-choice" data-attribute="qr">
+			<div class="menu-choice-details">
+				<i class="material-icons">code</i>
+				<p>Show QR-code</p>
+			</div>
+		</div>
+	</div>
 
 	<!-- Video -->
-	<div>
+	<div id="setup-camera" class="hidden">
 		<div id="outdiv"><video id="v" autoplay></video>
 		</div>
 		<div style="display: none;"></div><div>
 		<div id="error"></div>
-		<canvas id="qr-canvas" width="800" height="600"></canvas>
+		<canvas id="qr-canvas" class="hidden" width="800" height="600"></canvas>
 		</div>
 	</div>
 
 	<!-- QR -->
-	<div>
-		<div id="qrcode"></div>
+	<div id="setup-qr" class="hidden">
+		<div id="qrcode" style="margin:50px"></div>
 	</div>
 </div>
-<div id="normal" style="visibility: hidden;">
-<button class="js-textareacopybtn" style="vertical-align:top;">Copy Textarea</button>
-  <textarea class="js-copytextarea" disabled></textarea>
-  <textarea> </textarea>
-  <button id="reset">Delete all data</button>
+
+<div id="normal" class="hidden">
+	<div id="qr-button"><i class="material-icons">code</i></div>
+<!--<button class="js-textareacopybtn" style="vertical-align:top;">Copy Textarea</button>-->
+	<textarea readonly class="js-copytextarea" style="opacity:0;width:1px;height:1px;position:absolute;left:0;top:0"></textarea>
+	<textarea placeholder="Paste here" class="pasteArea"></textarea>
+	
+	<h2>Clipboard</h2>
+	<div id="divider"></div>
+	<ul id="copyList">
+	</ul>
 </div>
 
 
+<button id="reset" class="hidden">Delete all data</button>
+<div id="notification" data-balloon-pos="up"></div>
 </body>
 
 </html>
