@@ -1,5 +1,7 @@
 
-document.getElementById("error").innerText = "error?";
+var list = new copyList("#copyList");
+
+document.getElementById("error").innerText = "";
 ToBase64 = function (u8) {
     return btoa(String.fromCharCode.apply(null, u8)).replace(/\//g, '_').replace(/\+/g, '-');//.replace(/=+$/,'');
 }
@@ -87,11 +89,13 @@ function checkSetup(){
 	 setTimeout(checkSetup, 1000);
 	}else {
 		window.localStorage["setup"] = "true";
-		alert(test);
+		//alert(test);
+		location.reload();
 	}
 }
 
 function dispqr(){
+	document.getElementById("qrcode").innerHTML = '';
 	var qrcode = new QRCode(document.getElementById("qrcode"), {
     text: crypt.PrintKey(),
 	title: "a",
@@ -101,15 +105,19 @@ function dispqr(){
     colorLight : "#ffffff",
     correctLevel : QRCode.CorrectLevel.H
 });
-
-	checkSetup();
+	if (localStorage["setup"] !== "true") {
+		checkSetup();
+	}
 }
 
 
 function pollClip(){
-	test = get();
-	if (test){
-	document.querySelector('.js-copytextarea').innerText = test;
+	text = get();
+	if (text){
+		document.querySelector('.js-copytextarea').innerText = text;
+		if (list.lastItem !== text) {
+			list.addItem(text);
+		}
 	}
 	
 }
@@ -119,7 +127,7 @@ pollClip();
 	setTimeout(pollClipLoop, 10000);
 }
 
-function initClibBut(){
+/*function initClibBut(){
 var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
 
 copyTextareaBtn.addEventListener('click', function(event) {
@@ -137,7 +145,7 @@ copyTextareaBtn.addEventListener('click', function(event) {
   copyTextarea.disabled =true;
 });
 pollClipLoop();
-}
+}*/
 
 function initClipPaste(){
 	function handlePaste (e) {
@@ -163,11 +171,13 @@ document.addEventListener('paste', handlePaste);
 
 function initResetBut(){
 var resetBut = document.getElementById("reset");
+resetBut.classList.remove('hidden');
 resetBut.addEventListener("click", function(event) {
-alert("a");
+//alert("a");
 	localStorage.removeItem("pasteKey");
 	localStorage.removeItem("setup");
-
+	localStorage.removeItem("copyList");
+	location.reload();
 });
 
 }
@@ -184,10 +194,9 @@ var mode="";
 var s=null;
 
 
-
 function read(a)
 {
-	alert(a);
+	//alert(a);
 	v.pause();
 	for (let track of s.getTracks()) {
         track.stop()
@@ -195,18 +204,19 @@ function read(a)
 	s.clone();
 
 
-	alert(a);
+	//alert(a);
 	window.localStorage["pasteKey"] = a;
 	put("First");
 	window.localStorage["setup"] = "true";
 
 	//Soft restart ish...
 	main();
+	//location.reload();
 
 }
 function video(){
 
-	qrcode.debug=true;
+	qrcode.debug=false;
     gCtx = document.getElementById("qr-canvas").getContext("2d");
     gCtx.clearRect(0, 0, 800, 600);
 	qrcode.callback = read;
@@ -281,19 +291,47 @@ function captureToCanvas() {
 
 function main(){
 	if (window.localStorage["setup"] != "true"){
-	document.getElementById("setup").style.visibility = "visible";
-	document.getElementById("normal").style.display = 'none';
-	document.getElementById("setup").style.display = "";
-	video();
-	dispqr();
+		document.getElementById("setup").classList.remove('hidden');
+		document.getElementById("normal").classList.add('hidden');
+
+		document.querySelector('#setup-menu').addEventListener('click', function(event) {
+			var choice = event.target;
+			while(!choice.classList.contains('menu-choice')) {
+				choice = choice.parentElement;
+			}
+			choice = choice.getAttribute('data-attribute');
+			document.querySelector('#setup-menu').classList.add('hidden');
+
+			if(choice === 'camera') {
+				document.querySelector('#setup-camera').classList.remove('hidden');
+				video();
+			} else if (choice === 'qr') {
+				document.querySelector('#setup-qr').classList.remove('hidden');
+				dispqr();
+			}
+		});
+		//video();
+		//dispqr();
 	}else {
-		document.getElementById("setup").style.display = 'none';
-		document.getElementById("normal").style.visibility = "visible";
-		document.getElementById("normal").style.display = "";
-		initClibBut();
+		document.getElementById("setup-menu").classList.add('hidden');
+		document.getElementById("setup-camera").classList.add('hidden');
+		document.getElementById("setup-qr").classList.add('hidden');
+		document.getElementById("normal").classList.remove('hidden');
+		pollClipLoop();
 		initClipPaste();
 		initResetBut();
-		
+
+		document.querySelector('#qr-button').addEventListener('click', function(event) {
+			console.log('show qr');
+			var qrElement = document.querySelector('#setup-qr');
+			if (qrElement.classList.contains('hidden')) {
+				qrElement.classList.remove('hidden');
+				dispqr();
+			} else {
+				qrElement.classList.add('hidden');
+			}
+			
+		});
 	}
 }
 

@@ -1,0 +1,119 @@
+* {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+/*
+Setup menu
+*/
+#setup-menu {
+    display: flex;
+    height: 100vh;
+}
+
+#setup-menu .menu-choice{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#setup-menu > div:hover {
+    background: #CBCBEA;
+    cursor: pointer;
+}
+
+#setup-menu .menu-choice-details {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#setup-menu .material-icons {
+    font-size: 10em;
+}
+
+/*
+Setup stuff
+*/
+#setup-qr #qrcode {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/**
+Main page
+**/
+
+#normal {
+    text-align: center;
+}
+
+#qr-button {
+    cursor: pointer;
+}
+
+.pasteArea {
+    background: rgb(247, 238, 215);
+    resize: none;
+    width: 60vw;
+    height: 150px;
+    padding: 5px;
+    box-shadow: 0px 5px 31px 1px rgba(0,0,0,0.43);
+    margin: 25px 0;
+}
+
+#copyList {
+    max-height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+#copyList li {
+    height: 30px;
+    padding: 4px;
+    margin: 4px;
+    cursor: pointer;
+    line-height: 30px;
+    overflow: hidden;
+}
+
+#copyList li:nth-child(1n) {
+    background: #C89E9E;
+}
+
+#copyList li:nth-child(2n) {
+    background: #D5D5D5;
+}
+
+#copyList li:active {
+    background: #B1B1B4;
+}
+
+@media (min-width: 1000px) {
+    #copyList {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    #copyList li:hover {
+        background: #E2E2FF;
+    }
+}
+
+#notification {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 0;
+}
+
+.hidden {
+    display: none !important;
+}
