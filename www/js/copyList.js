@@ -21,8 +21,6 @@ var copyList = (function(win){
     function addListItem(text) {
         var newLi = document.createElement('li');
         newLi.setAttribute('data-attribute','listItem');
-        //data-balloon="Whats up!" data-balloon-pos="up"
-        //newLi.setAttribute('data-balloon', 'Click to copy');
         newLi.textContent = text;
 
         if(listElement.firstElementChild) {

@@ -227,7 +227,7 @@ function video(){
 	        navigator.mediaDevices.enumerateDevices()
 	        .then(function(devices) {
 	          devices.forEach(function(device) {
-	            if (device.kind === 'videoinput') {
+				if (device.kind === 'videoinput') {
 	              if(device.label.toLowerCase().search("back") >-1 )
 	                options={'deviceId': {'exact':device.deviceId}, 'facingMode': "environment" } ;
 	            }
@@ -291,8 +291,16 @@ function captureToCanvas() {
 
 function main(){
 	if (window.localStorage["setup"] != "true"){
+		var queryDict = {};
+		location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]});
+
 		document.getElementById("setup").classList.remove('hidden');
 		document.getElementById("normal").classList.add('hidden');
+
+		if (queryDict.camera) {
+			window.history.pushState("object or string", "Title", "/"+window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);			
+			handleMenuChoice('camera');
+		}
 
 		document.querySelector('#setup-menu').addEventListener('click', function(event) {
 			var choice = event.target;
@@ -300,15 +308,7 @@ function main(){
 				choice = choice.parentElement;
 			}
 			choice = choice.getAttribute('data-attribute');
-			document.querySelector('#setup-menu').classList.add('hidden');
-
-			if(choice === 'camera') {
-				document.querySelector('#setup-camera').classList.remove('hidden');
-				video();
-			} else if (choice === 'qr') {
-				document.querySelector('#setup-qr').classList.remove('hidden');
-				dispqr();
-			}
+			handleMenuChoice(choice);
 		});
 		//video();
 		//dispqr();
@@ -330,10 +330,27 @@ function main(){
 			} else {
 				qrElement.classList.add('hidden');
 			}
-			
 		});
 	}
 }
+
+function handleMenuChoice(choice) {
+	document.querySelector('#setup-menu').classList.add('hidden');
+	
+	if(choice === 'camera') {
+		document.querySelector('#setup-camera').classList.remove('hidden');
+		document.querySelector('#refresh-camera-button').addEventListener('click', function(event) {
+			//location.reload();
+			var url = window.location.href;    
+			url += '?camera=yes';
+			window.location.href = url;
+		});
+		video();
+	} else if (choice === 'qr') {
+		document.querySelector('#setup-qr').classList.remove('hidden');
+		dispqr();
+	}
+} 
 
 // 90% of my js developing is just figuring out when to run my code
 document.addEventListener('DOMContentLoaded', main);
