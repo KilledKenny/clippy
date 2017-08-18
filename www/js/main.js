@@ -99,8 +99,8 @@ function dispqr(){
 	var qrcode = new QRCode(document.getElementById("qrcode"), {
     text: crypt.PrintKey(),
 	title: "a",
-    width: 400,
-    height: 400,
+    width: 300,
+    height: 300,
     colorDark : "#000000",
     colorLight : "#ffffff",
     correctLevel : QRCode.CorrectLevel.H
@@ -126,26 +126,6 @@ function pollClipLoop(){
 pollClip();
 	setTimeout(pollClipLoop, 10000);
 }
-
-/*function initClibBut(){
-var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
-
-copyTextareaBtn.addEventListener('click', function(event) {
-  var copyTextarea = document.querySelector('.js-copytextarea');
-  copyTextarea.disabled =false;
-  copyTextarea.select();
-
-  try {
-    var successful = document.execCommand('copy');
-    var msg = successful ? 'successful' : 'unsuccessful';
-    console.log('Copying text command was ' + msg);
-  } catch (err) {
-    console.log('Oops, unable to copy');
-  }
-  copyTextarea.disabled =true;
-});
-pollClipLoop();
-}*/
 
 function initClipPaste(){
 	function handlePaste (e) {
@@ -206,7 +186,7 @@ function read(a)
 
 	//alert(a);
 	window.localStorage["pasteKey"] = a;
-	put("First");
+	put("New device paired");
 	window.localStorage["setup"] = "true";
 
 	//Soft restart ish...
@@ -310,8 +290,6 @@ function main(){
 			choice = choice.getAttribute('data-attribute');
 			handleMenuChoice(choice);
 		});
-		//video();
-		//dispqr();
 	}else {
 		document.getElementById("setup-menu").classList.add('hidden');
 		document.getElementById("setup-camera").classList.add('hidden');
@@ -322,14 +300,24 @@ function main(){
 		initResetBut();
 
 		document.querySelector('#qr-button').addEventListener('click', function(event) {
-			console.log('show qr');
 			var qrElement = document.querySelector('#setup-qr');
+			document.querySelector('#settings').classList.add('hidden');
 			if (qrElement.classList.contains('hidden')) {
 				qrElement.classList.remove('hidden');
 				dispqr();
 			} else {
 				qrElement.classList.add('hidden');
 			}
+		});
+		document.querySelector('#settings-button').addEventListener('click', function(event) {
+			var settings = document.querySelector('#settings');
+			settings.classList.toggle('hidden');
+			document.querySelector('#setup-qr').classList.add('hidden');
+			/*if (qrElement.classList.contains('hidden')) {
+				qrElement.classList.remove('hidden');
+			} else {
+				qrElement.classList.add('hidden');
+			}*/
 		});
 	}
 }
