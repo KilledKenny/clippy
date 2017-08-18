@@ -42,7 +42,7 @@ Setup menu
     flex-direction: column;
 }
 
-#setup-menu .material-icons {
+#setup-menu .mdi {
     font-size: 10em;
 }
 
