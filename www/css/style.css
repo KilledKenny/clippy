@@ -133,6 +133,10 @@ Main page
     padding: 8px;
 }
 
+#menu > div:hover {
+    color: #2D3142;
+}
+
 #settings-button {
     cursor: pointer;
     display: flex;
