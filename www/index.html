@@ -75,19 +75,23 @@ document.head.appendChild(t);
 </div>
 
 <div id="normal" class="hidden">
-	<div id="qr-button"><i class="material-icons">code</i></div>
+	<div id="settings" class="hidden">
+		<button id="reset" class="hidden">Delete all data</button>
+	</div>
+	<div id="menu" class="noselect">
+		<div id="settings-button"><i class="material-icons">settings</i></div>
+		<div id="qr-button"><i class="material-icons">code</i></div>
+	</div>
 <!--<button class="js-textareacopybtn" style="vertical-align:top;">Copy Textarea</button>-->
 	<textarea readonly class="js-copytextarea" style="opacity:0;width:1px;height:1px;position:absolute;left:0;top:0"></textarea>
 	<textarea placeholder="Paste here" class="pasteArea"></textarea>
 	
-	<h2><i class="material-icons">content_paste</i></h2>
+	<h2 class="clipboard"><i class="material-icons">content_paste</i></h2>
 	<div id="divider"></div>
 	<ul id="copyList">
 	</ul>
 </div>
 
-
-<button id="reset" class="hidden">Delete all data</button>
 <div id="notification" data-balloon-pos="up"></div>
 </body>
 
