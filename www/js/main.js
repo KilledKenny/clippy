@@ -313,11 +313,6 @@ function main(){
 			var settings = document.querySelector('#settings');
 			settings.classList.toggle('hidden');
 			document.querySelector('#setup-qr').classList.add('hidden');
-			/*if (qrElement.classList.contains('hidden')) {
-				qrElement.classList.remove('hidden');
-			} else {
-				qrElement.classList.add('hidden');
-			}*/
 		});
 	}
 }
