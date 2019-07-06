@@ -10,8 +10,8 @@
     $ go install
     $ ./$GOPATH/clippy
 
-#### Prebuilt
-Download a prebuilt zip from [GoBuilder](https://gobuilder.me/github.com/KilledKenny/clippy) it will contain the server binary and the www folder
+#### ~~Prebuilt~~
+~~Download a prebuilt zip from [GoBuilder]() it will contain the server binary and the www folder~~
 
 ## Certs
 
